@@ -19,12 +19,27 @@ export interface Shop {
     photoUrl: string
 }
 
-const shops = new Array<Shop>();
-const products = new Array<Product>();
+const products = new Array<Product>({
+    id: "1",
+    photoUrl: "",
+    name: "piwo 1"
+});
+
+
+const shops = new Array<Shop>({
+    productIds: ["1"],
+    location: {latitude: 52.2109537, longitude: 
+        20.9751821},
+    name: "Monopolowy",
+    googleMapsLink: "nie ma",
+    photoUrl: "nie ma"
+});
 
 // search returns shops in given distance from the location which have all selected products.
 export function search(location: Location, distance: number, products: ProductId[]): Shop[] {
+    console.log("[BACKEND] Searching for shops: ", location, distance, products)
     const shopsInLoc = getShops(location, distance);
+    console.log("[BACKEND] shops in loc: ", shopsInLoc)
     return shopsInLoc.filter(shop => hasAll(shop, products))
 }
 

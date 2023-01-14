@@ -34,9 +34,9 @@
   <button on:click={toggleDisplay}>Szukaj</button>
   {#if display}
     {#if products.length}
-      <ul>
+      <ul class="list_with_buttons" >
         {#each products as item}
-          <li>
+          <li class="list_element_with_button">
             <ProductListItem value={item} />
             <button on:click={() => addProduct(item)}>Dodaj do listy</button>
           </li>

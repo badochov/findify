@@ -20,9 +20,9 @@
 <h3>Twoja lista zakupów</h3>
 {#if shoppingList.length}
   <p>Obecne produkty na liście zakupów:</p>
-  <ul>
+  <ul class="list_with_buttons">
     {#each shoppingList as item, i}
-      <li>
+      <li class="list_element_with_button">
         <ProductListItem value={item} />
         <button on:click={() => removeFromShoppingList(i)} >Usuń</button>
       </li>

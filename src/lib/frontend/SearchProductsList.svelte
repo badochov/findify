@@ -5,7 +5,7 @@
 
   let searchText: string;
 
-  let searchPromise: Promise<Product[]>;
+  let searchPromise = getMatchingProducts("");
 
   function search() {
     searchPromise = getMatchingProducts(searchText);
@@ -22,12 +22,15 @@
 
 <h3>Wyszukaj produkty</h3>
 <div class="container">
-  <input type="text" bind:value={searchText} placeholder="Nazwa produktu" />
-  <button on:click={search}>Szukaj</button>
-  {#if searchPromise}
-    {#await searchPromise}
-      <p>...wyszukiwanie</p>
-    {:then products}
+  <input
+    type="text"
+    bind:value={searchText}
+    on:input={search}
+    placeholder="Nazwa produktu"
+  />
+  {#await searchPromise}
+    <p>...wyszukiwanie</p>
+  {:then products}
     <ul class="list_with_buttons">
       {#each products as item}
         <li class="list_element_with_button">
@@ -37,11 +40,8 @@
       {:else}
         <li>Brak wyników</li>
       {/each}
-    </ul> 
-    {:catch error}
-      <p style="color: red">{error.message}</p>
-    {/await}    
-  {:else}
-    <p>-</p>
-  {/if}
+    </ul>
+  {:catch error}
+    <p style="color: red">{error.message}</p>
+  {/await}
 </div>

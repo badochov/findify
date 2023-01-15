@@ -21,18 +21,22 @@ export interface Shop {
 
 const products = new Array<Product>({
     id: "1",
-    photoUrl: "",
-    name: "piwo 1"
-});
+    photoUrl: "https://static.wirtualnemedia.pl/media/top/NOWY%20HARNAS_butelka655.jpg",
+    name: "Piwo Harnaś"
+},{
+    id: "2",
+    photoUrl: "https://sklep-domwhisky.pl/pol_pl_Jagermeister-35-1-0l-13016_2.jpg",
+    name: "Likier ziołowy Jaegermeister"
+},
+);
 
 
 const shops = new Array<Shop>({
     productIds: ["1"],
-    location: {latitude: 52.2109537, longitude: 
-        20.9751821},
-    name: "Monopolowy",
-    googleMapsLink: "nie ma",
-    photoUrl: "nie ma"
+    location: { latitude: 52.238572830930586, longitude: 21.106051282983003 },
+    name: "Monopolowy u Marcina",
+    googleMapsLink: "https://goo.gl/maps/AT94mRaY5HxV5sqq6",
+    photoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Flag_of_Armenia.svg/1280px-Flag_of_Armenia.svg.png"
 });
 
 // search returns shops in given distance from the location which have all selected products.

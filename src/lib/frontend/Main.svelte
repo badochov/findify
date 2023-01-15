@@ -7,13 +7,20 @@
   let shoppingList: Product[] = [];
 
   function addToMainList(event) {
-    console.log("Received", event)
-    shoppingList.push(event.detail.value);
-    shoppingList = shoppingList
+    console.log("Received", event);
+
+    let product: Product = event.detail.value;
+    if (shoppingList.includes(product)) {
+      alert("Produkt " + product.name + " jest już w Twojej liście zakupów!");
+    } else {
+      shoppingList.push(product);
+      shoppingList = shoppingList;
+    }
   }
+  
   function removeFromShoppingList(i: number) {
     shoppingList.splice(i, 1);
-    shoppingList = shoppingList
+    shoppingList = shoppingList;
   }
 </script>
 
@@ -24,12 +31,12 @@
     {#each shoppingList as item, i}
       <li class="list_element_with_button">
         <ProductListItem value={item} />
-        <button on:click={() => removeFromShoppingList(i)} >Usuń</button>
+        <button on:click={() => removeFromShoppingList(i)}>Usuń</button>
       </li>
     {/each}
   </ul>
 {:else}
-<p>Nie masz żadnych produktów na Twojej liście zakupów</p>
+  <p>Nie masz żadnych produktów na Twojej liście zakupów</p>
 {/if}
 <SearchStoresList products={shoppingList} />
 <SearchProductsList on:addproduct={addToMainList} />

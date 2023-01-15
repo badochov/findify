@@ -19,17 +19,32 @@ export interface Shop {
     photoUrl: string
 }
 
-const shops = new Array<Shop>();
-const products = new Array<Product>();
+const products = new Array<Product>({
+    id: "1",
+    photoUrl: "",
+    name: "piwo 1"
+});
+
+
+const shops = new Array<Shop>({
+    productIds: ["1"],
+    location: {latitude: 52.2109537, longitude: 
+        20.9751821},
+    name: "Monopolowy",
+    googleMapsLink: "nie ma",
+    photoUrl: "nie ma"
+});
 
 // search returns shops in given distance from the location which have all selected products.
-export function search(location: Location, distance: number, products: ProductId[]): Shop[] {
+export async function search(location: Location, distance: number, products: ProductId[]): Promise<Shop[]> {
+    console.log("[BACKEND] Searching for shops: ", location, distance, products)
     const shopsInLoc = getShops(location, distance);
+    console.log("[BACKEND] shops in loc: ", shopsInLoc)
     return shopsInLoc.filter(shop => hasAll(shop, products))
 }
 
 // returns all products mathing the search phrase.
-export function getMatchingProducts(searchPhrase: string): Product[] {
+export async function getMatchingProducts(searchPhrase: string): Promise<Product[]> {
     return products.filter((prod) => prod.name.includes(searchPhrase))
 }
 
@@ -48,7 +63,7 @@ function distance(location: Location, location2: Location): number {
     const φ1 = location.latitude * Math.PI / 180; // φ, λ in radians
     const φ2 = location2.latitude * Math.PI / 180;
     const Δφ = (location2.latitude - location2.latitude) * Math.PI / 180;
-    const Δλ = (location2.longitude - location.latitude) * Math.PI / 180;
+    const Δλ = (location2.longitude - location.longitude) * Math.PI / 180;
 
     const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
         Math.cos(φ1) * Math.cos(φ2) *

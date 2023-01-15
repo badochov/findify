@@ -3,20 +3,12 @@
   import { getMatchingProducts, type Product } from "../backend";
   import ProductListItem from "./ProductListItem.svelte";
 
-  let products: Product[] = [];
   let searchText: string;
 
-  let display = false;
-  async function fetchData() {
-    products = getMatchingProducts(searchText);
-    // const response = await fetch(`https://api.example.com?q=${searchText}`);
-    // const data = await response.json();
-    // products = data.items;
-  }
+  let searchPromise: Promise<Product[]>;
 
-  function toggleDisplay() {
-    fetchData();
-    display = true;
+  function search() {
+    searchPromise = getMatchingProducts(searchText);
   }
 
   const dispatch = createEventDispatcher();
@@ -31,20 +23,24 @@
 <h3>Wyszukaj produkty</h3>
 <div class="container">
   <input type="text" bind:value={searchText} placeholder="Nazwa produktu" />
-  <button on:click={toggleDisplay}>Szukaj</button>
-  {#if display}
-    {#if products.length}
-      <ul class="list_with_buttons" >
-        {#each products as item}
-          <li class="list_element_with_button">
-            <ProductListItem value={item} />
-            <button on:click={() => addProduct(item)}>Dodaj do listy</button>
-          </li>
-        {/each}
-      </ul>
-    {:else}
-      <p>No results</p>
-    {/if}
+  <button on:click={search}>Szukaj</button>
+  {#if searchPromise}
+    {#await searchPromise}
+      <p>...wyszukiwanie</p>
+    {:then products}
+    <ul class="list_with_buttons">
+      {#each products as item}
+        <li class="list_element_with_button">
+          <ProductListItem value={item} />
+          <button on:click={() => addProduct(item)}>Dodaj do listy</button>
+        </li>
+      {:else}
+        <li>Brak wyników</li>
+      {/each}
+    </ul> 
+    {:catch error}
+      <p style="color: red">{error.message}</p>
+    {/await}    
   {:else}
     <p>-</p>
   {/if}

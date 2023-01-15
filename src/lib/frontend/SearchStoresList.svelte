@@ -9,7 +9,6 @@
 
   // The list will be updated when parent component updates
   export let products: Product[];
-  let shops: Shop[];
   let distance: number;
   let location: Location = {
     latitude: 0,
@@ -17,25 +16,14 @@
   };
   let locationError: string;
 
-  let display = false;
+  let shopsPromise: Promise<Shop[]>;
 
-  async function fetchStores() {
-    shops = backendSearch(
+  function searchStores() {
+    shopsPromise = backendSearch(
       location,
       distance * 1000,
       products.map((p) => p.id)
     );
-    console.log("Got shops from backend ", shops)
-    // const response = await fetch(
-    //   // backend api call
-    // );
-    // const data = await response.json();
-    // shops = data.items;
-  }
-
-  function toggleDisplay() {
-    display = true;
-    fetchStores();
   }
 
   function get_location() {
@@ -60,23 +48,29 @@
 
 <h3>Wyszukaj sklepów z Twoją listą zakupów w danej odległości</h3>
 <div>
-  <input
-    type="number"
-    bind:value={distance}
-    step="0.01"
-    min="0"
-    placeholder="Wprowadź odległość [km]"
-  />
-  <button on:click={toggleDisplay}>Szukaj</button>
   {#if locationError}
-    <p>{locationError}</p>
-  {:else if display}
-    {#if shops.length}
-      {#each shops as item}
-        <StoreListItem value={item} />
-      {/each}
-    {:else}
-      <p>Nie znaleziono sklepów</p>
+    <p style="color: red">{locationError}</p>
+  {:else}
+    <input
+      type="number"
+      bind:value={distance}
+      step="0.01"
+      min="0"
+      placeholder="Wprowadź odległość [km]"
+    />
+    <button on:click={searchStores}>Szukaj</button>
+    {#if shopsPromise}
+      {#await shopsPromise}
+        <p>...wyszukiwanie</p>
+      {:then shops}
+        {#each shops as item}
+          <StoreListItem value={item} />
+        {:else}
+          <p>Nie znaleziono sklepów</p>
+        {/each}
+      {:catch error}
+        <p style="color: red">{error.message}</p>
+      {/await}
     {/if}
   {/if}
 </div>

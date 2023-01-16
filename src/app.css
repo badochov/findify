@@ -47,6 +47,7 @@ h1 {
 
 .list_element_with_button {
   display: flex;
+  margin: 2px;
 }
 
 /* To select the not-button element */

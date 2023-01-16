@@ -41,9 +41,9 @@ h1 {
   padding: 2em;
 }
 
-/* .list_with_buttons {
+.list_with_buttons {
   list-style-type:none;
-} */
+}
 
 .list_element_with_button {
   display: flex;

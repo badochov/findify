@@ -1,24 +1,24 @@
 <script lang="ts">
   import type { Shop } from "../backend/index";
+  import Fa from "svelte-fa/src/fa.svelte";
+  import { faLocationArrow } from "@fortawesome/free-solid-svg-icons";
   export let value: Shop;
 </script>
 
 <div style="display: flex;" class="container">
-  <img src={value.photoUrl} height="50p" alt="Picture of {value.name}" />
-  <script
-    src="https://kit.fontawesome.com/a076d05399.js"
-    crossorigin="anonymous"
-  ></script>
-  <div style="align-items: stretch; justify-content: center; height: 50px">
-    <a href={value.googleMapsLink}>
-      <i
-        style="font-size:24px; text-align: center;"
-        class="fas fa-location-arrow"
-      />
-    </a>
-  </div>
+  <img
+    src={value.photoUrl}
+    height="50p"
+    width="50p"
+    alt="Picture of {value.name}"
+  />
   <div style="align-items: stretch; flex-grow: 1">
     <p style="text-align: center;">{value.name}</p>
+  </div>
+  <div style="height: 50px; display: flex; align-items: center;">
+    <a href={value.googleMapsLink} style="display:block">
+      <Fa icon={faLocationArrow} size="lg" />
+    </a>
   </div>
 </div>
 

@@ -5,9 +5,11 @@
 </script>
 
 <div style="display: flex;" class="container">
-  <div style="height: 50px; display: flex; align-items: center;">
+  <div
+    style="height: 50px; width: 50px; display: flex; align-items: center; justify-content: center;"
+  >
     <img
-      src={value.photoUrl|| defaultImg}
+      src={value.photoUrl || defaultImg}
       height="50p"
       alt="Picture of {value.name}"
     />

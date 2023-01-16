@@ -5,11 +5,13 @@
 </script>
 
 <div style="display: flex;" class="container">
-  <img
-    src={value.photoUrl || defaultImg}
-    height="50p"
-    alt="Picture of {value.name}"
-  />
+  <div style="height: 50px; display: flex; align-items: center;">
+    <img
+      src={value.photoUrl|| defaultImg}
+      height="50p"
+      alt="Picture of {value.name}"
+    />
+  </div>
   <div style="align-items: stretch; flex-grow: 1">
     <p style="text-align: center;">{value.name}</p>
   </div>

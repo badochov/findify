@@ -49,7 +49,7 @@ export async function search(location: Location, distance: number, products: Pro
 
 // returns all products mathing the search phrase.
 export async function getMatchingProducts(searchPhrase: string): Promise<Product[]> {
-    return products.filter((prod) => prod.name.includes(searchPhrase))
+    return products.filter((prod) => prod.name.toLowerCase().includes(searchPhrase.toLowerCase()))
 }
 
 function getShops(location: Location, dist: number): Shop[] {

@@ -2,6 +2,7 @@
   import { createEventDispatcher } from "svelte";
   import { getMatchingProducts, type Product } from "../backend";
   import ProductListItem from "./ProductListItem.svelte";
+  import VirtualList from "@sveltejs/svelte-virtual-list";
 
   let searchText: string;
 
@@ -22,25 +23,30 @@
 
 <h3>Wyszukaj produkty</h3>
 <div class="container">
-  <input
-    type="text"
-    bind:value={searchText}
-    on:input={search}
-    placeholder="Nazwa produktu"
-  />
+  <div style="height:50px; padding:5px;">
+    <input
+      type="text"
+      bind:value={searchText}
+      on:input={search}
+      placeholder="Nazwa produktu"
+      style="padding: 5px 0"
+    />
+  </div>
   {#await searchPromise}
     <p>...wyszukiwanie</p>
   {:then products}
-    <ul class="list_with_buttons">
-      {#each products as item}
-        <li class="list_element_with_button">
-          <ProductListItem value={item} />
-          <button on:click={() => addProduct(item)}>Dodaj do listy</button>
-        </li>
-      {:else}
-        <li>Brak wyników</li>
-      {/each}
-    </ul>
+    {#if products.length > 0}
+      <div style="height:600px;">
+        <VirtualList items={products} let:item>
+          <p class="list_element_with_button">
+            <ProductListItem value={item} />
+            <button on:click={() => addProduct(item)}>Dodaj do listy</button>
+          </p>
+        </VirtualList>
+      </div>
+    {:else}
+      <p>Brak wyników</p>
+    {/if}
   {:catch error}
     <p style="color: red">{error.message}</p>
   {/await}
